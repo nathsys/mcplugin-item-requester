@@ -1,7 +1,7 @@
 # Item Requester
 A simple Minecraft bukkit/Spigot/Paper plugin that allows players to request and send items to eachother using the chat.
 # Usage
-Request: /request <item> <amount>
+Request: /request \<item\> \<amount\>
 
 Fulfill: Click the request in the chat.
 
