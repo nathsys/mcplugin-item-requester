@@ -1,0 +1,10 @@
+name: ItemRequester
+version: 1.0
+main: dev.nathsys.itemrequester.ItemRequester
+api-version: 1.20
+commands:
+  request:
+    description: Request an item from players
+    usage: /request <item> <amount>
+  fulfill:
+    description: Fulfill a request
