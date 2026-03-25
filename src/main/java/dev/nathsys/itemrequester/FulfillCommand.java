@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,13 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class FulfillCommand implements CommandExecutor {
-
-    public final ItemRequester plugin;
-
-    public FulfillCommand(ItemRequester plugin) {
-        this.plugin = plugin;
-    }
+/* The fulfil command, gets executed by click on request. Usage: /fulfil <request_id> */
+public record FulfillCommand(ItemRequester plugin) implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
@@ -36,8 +30,14 @@ public class FulfillCommand implements CommandExecutor {
         }
 
         Player requester = Bukkit.getPlayer(request.getRequester());
+
         if (requester == null) {
             fulfiller.sendMessage("Player not found.");
+            return true;
+        }
+
+        if (fulfiller.getName().equals(requester.getName())) {
+            fulfiller.sendMessage("Cannot fulfill your own request.");
             return true;
         }
 
@@ -45,11 +45,6 @@ public class FulfillCommand implements CommandExecutor {
 
         if (!fulfiller.getInventory().containsAtLeast(stack, request.getAmount())) {
             fulfiller.sendMessage("You don't have enough items.");
-            return true;
-        }
-
-        if (fulfiller.getName().equals(requester.getName())) {
-            fulfiller.sendMessage("Cannot fulfill your own request.");
             return true;
         }
 
@@ -67,7 +62,6 @@ public class FulfillCommand implements CommandExecutor {
 
         fulfiller.sendMessage("Request fulfilled!");
         requester.sendMessage("Your request was fulfilled by " + fulfiller.getName());
-
 
 
         String niceName = request.getMaterial().name().toLowerCase().replace("_", " ");

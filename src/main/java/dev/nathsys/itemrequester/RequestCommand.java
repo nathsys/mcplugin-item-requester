@@ -12,7 +12,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/* Request command, usage: /request <item> <amount>. */
 public class RequestCommand implements CommandExecutor {
     public final ItemRequester plugin;
 
@@ -53,9 +58,11 @@ public class RequestCommand implements CommandExecutor {
             return true;
         }
 
+        // Make the request.
         Request request = new Request(plugin.getNextId(), player.getUniqueId(), material, amount);
         plugin.getRequests().put(request.getId(), request);
 
+        // Expire the request after the configured amount of minutes.
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             plugin.fulfill(request.getId());
         }, 20L * 60 * plugin.getExpMinutes()); // 5 minutes.

@@ -32,6 +32,7 @@ public final class ItemRequester extends JavaPlugin {
         saveDefaultConfig();
         Objects.requireNonNull(getCommand("request")).setExecutor(new RequestCommand(this));
         Objects.requireNonNull(getCommand("fulfill")).setExecutor(new FulfillCommand(this));
+        Objects.requireNonNull(getCommand("request")).setTabCompleter(new ItemTabCompleter());
     }
 
     @Override
