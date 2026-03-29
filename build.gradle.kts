@@ -25,6 +25,6 @@ java {
 
 tasks.jar {
     archiveBaseName.set("ItemRequester")
-    archiveVersion.set("1.0")
+    archiveVersion.set("1.1")
     from(sourceSets.main.get().output)
 }

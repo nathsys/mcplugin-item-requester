@@ -18,8 +18,14 @@ public final class ItemRequester extends JavaPlugin {
     }
 
     public void fulfill(int id) {
-        requests.get(id).setFulfilled(true);
-        requests.remove(id);
+        Request request = requests.get(id);
+
+        if (request == null) {
+            return; // already fulfilled or expired
+        }
+
+        request.setFulfilled(true);
+        requests.remove(id); // if you do this
     }
 
     public int getNextId() {
